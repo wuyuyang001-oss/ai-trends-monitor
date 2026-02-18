@@ -1,0 +1,1 @@
+# ai-trends-monitor
