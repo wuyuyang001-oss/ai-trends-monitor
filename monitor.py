@@ -12,7 +12,7 @@ from urllib.parse import urlencode
 
 # 飞书 webhook（需要配置 secrets）
 FEISHU_WEBHOOK = os.environ.get('FEISHU_WEBHOOK', '')
-GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN', '')
+AI_TREND_MONITOR = os.environ.get('AI_TREND_MONITOR', '')
 
 def send_feishu(title, content):
     """发送消息到飞书"""
@@ -40,8 +40,8 @@ def send_feishu(title, content):
 def fetch_github_trending():
     """获取 GitHub AI 趋势项目"""
     headers = {}
-    if GITHUB_TOKEN:
-        headers['Authorization'] = f'token {GITHUB_TOKEN}'
+    if AI_TREND_MONITOR:
+        headers['Authorization'] = f'token {AI_TREND_MONITOR}'
     
     topics = ['artificial-intelligence', 'machine-learning', 'llm', 'claude', 'openai']
     results = []

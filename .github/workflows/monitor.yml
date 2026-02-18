@@ -26,7 +26,7 @@ jobs:
       - name: Run monitor
         env:
           FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AI_TREND_MONITOR: ${{ secrets.AI_TREND_MONITOR }}
         run: |
           python monitor.py
 
