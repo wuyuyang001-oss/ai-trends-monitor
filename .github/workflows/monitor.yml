@@ -1,39 +1,26 @@
 name: AI Trends Monitor
 
 on:
+  push:
+    branches: [ main ]
   schedule:
-    # 每天北京时间 9:00 和 21:00 运行
-    - cron: '0 1 * * *'  # UTC 01:00 = 北京 09:00
-    - cron: '0 13 * * *' # UTC 13:00 = 北京 21:00
-  workflow_dispatch: # 支持手动触发
+    - cron: '0 1 * * *'
+    - cron: '0 13 * * *'
+  workflow_dispatch:
 
 jobs:
   monitor:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          pip install requests beautifulsoup4 feedparser
-
-      - name: Run monitor
+      
+      - run: pip install requests beautifulsoup4 feedparser
+      
+      - run: python monitor.py
         env:
           FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
           AI_TREND_MONITOR: ${{ secrets.AI_TREND_MONITOR }}
-        run: |
-          python monitor.py
-
-      - name: Commit results
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add -A
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update trends $(date +%Y-%m-%d)"
-          git push
